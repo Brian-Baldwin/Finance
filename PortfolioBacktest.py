@@ -4,9 +4,9 @@ import json
 import calendar
 import datetime as dt
 from dateutil.rrule import rrule, MONTHLY
-import holidays
 
-apiKey = ""
+with open("apikey.txt", encoding='utf8') as t:
+    apiKey = t.readlines()
 
 
 # Find last business day of either the previous month or the current month depending on arguments

@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
     const [formFields, setFormFields] = useState([
       {asset: '', allocation: ''}
     ])
-  
+    //const [start, setStart] = useState("");
+    //const [end, setEnd] = useState("");
+    //const [benchmark, setBenchmark] = useState("");
+
     const handleFormChange = (index, event) => {
       let data = [...formFields];
       data[index][event.target.name] = event.target.value;
@@ -17,14 +20,7 @@ function App() {
         asset: '',
         allocation: ''
       }
-  
       setFormFields([...formFields, object])
-    }
-  
-    const removeFields = (index) => {
-      let data = [...formFields];
-      data.splice(index, 1)
-      setFormFields(data)
     }
   
     const submit = (e) => {
@@ -37,19 +33,17 @@ function App() {
       <head>
           <title>Portfolio Backtester</title>
       </head>
-  
         <h1>Portfolio Backtester</h1>
         <p>Input a stock portfolio below with each stock's respective allocation and a start and end date to see how it performs.</p>
         <br/>
         <br/>
-        
-        <form>
+        <form action="localhost:8000" method="post" onSubmit={submit}>
             <label for="start"><b>Starting date </b></label>
-            <input type="month" id="start" name="start"/>
+            <input type="month" id="start" name="start" required/>
             <br />
             <br />
             <label for="end"><b>Ending date </b></label>
-            <input type="month" id="end" name="end"/>
+            <input type="month" id="end" name="end" required/>
             <br />
             <br />
             <label for="bench"><b>Benchmark </b></label>
@@ -59,7 +53,7 @@ function App() {
             {formFields.map((input, index) => {
               return (
                 <div key={index}>
-                <input 
+                <input
                   name="asset"
                   placeholder="Ticker"
                   value={input.name}
@@ -71,19 +65,18 @@ function App() {
                   value={input.name}
                   onChange={event => handleFormChange(index, event)}
                 />
-                <button onClick={() => removeFields(index)}>Remove</button>
                 <br />
+                
                 </div>
               )
             })}
             <br />
+            <button onClick={addFields}>Add another ticker</button>
             <br />
             <br />
+            <button type="submit">Compare</button>
         </form>
-        <br />
-        <button onClick={addFields}>Add another asset</button>
-        <br />
-        <button onClick={submit}>Compare</button>
+        
         </div>
     );
   }
